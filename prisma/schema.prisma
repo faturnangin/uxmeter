@@ -42,7 +42,7 @@ model simpletest {
 model ueqsia {
   id        Int      @id @default(autoincrement())
   name      String
-  nim       Int
+  nim       Int      @unique
   faculty   String
   createdAt DateTime @default(now())
   answers   Json

@@ -1,11 +1,10 @@
 "use client"
 import useSWR from 'swr';
 import React from 'react'
-import { UsersIcon, ArrowLongRightIcon } from '@heroicons/react/20/solid';
-import Link from 'next/link';
+import { UsersIcon } from '@heroicons/react/20/solid';
 import {Button,Card,Flex,Text,Metric,TabList,Tab,TabGroup,TabPanels,TabPanel, Table, TableHead,TableRow, TableHeaderCell, TableBody, TableCell, BadgeDelta, DeltaType, Icon, Title, Grid} from "@tremor/react";
 import { useState } from "react";
-import { DocumentChartBarIcon, ScaleIcon } from '@heroicons/react/20/solid';
+import { DocumentChartBarIcon, ScaleIcon,EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid';
 import Loader from '@/components/Loader';
 const categories = [
     {
@@ -33,14 +32,15 @@ export default function Statistik() {
         <div className='flex justify-start'>
 
         {categories.map((item) => (
-        <Card className='w-1/2' key={item.title}>
+        <Card className='w-full md:w-1/2' key={item.title}>
           <Icon variant="light" icon={item.icon} size="lg" color="blue" />
           <Title className="mt-6">{item.title}</Title>
           <Text className="mt-2">{item.text}</Text>
           <Flex className="mt-6 pt-4 border-t">
-            <Button onClick={toggleVisibility} size="xs" variant="light" icon={ArrowLongRightIcon} iconPosition="right">
+            {/* <Button onClick={toggleVisibility} size="xs" variant="light" icon={ArrowLongRightIcon} iconPosition="right">
               {isVisible?'Tutup' : 'Tampilkan'}
-            </Button>
+            </Button> */}
+            <Button onClick={toggleVisibility} icon={isVisible? EyeSlashIcon : EyeIcon}>{isVisible?'Tutup' : 'Tampilkan'}</Button>;
           </Flex>
         </Card>
         ))}

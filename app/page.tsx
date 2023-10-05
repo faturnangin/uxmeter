@@ -103,7 +103,7 @@ export default function Home() {
     <section className="py-4 px-4 lg:px-24 lg:py-8 flex flex-col gap-4 lg:gap-y-5">
       <h2 className="text-base lg:text-xl font-semibold text-center">Tertarik Untuk Menjadi Responden?</h2>
       <div className="flex justify-center items-center gap-x-[10px]">
-        <button className='px-6 py-2 bg-primary rounded-full text-sm lg:text-base font-medium text-white'>Panduan Pengisian</button>
+        <Link href="/#join"><button className='px-6 py-2 bg-primary rounded-full text-sm lg:text-base font-medium text-white'>Isi Kuisioner</button></Link>
         <Link href="mailto:workwithnangin@gmail.com"><button className='px-6 py-2 bg-white border border-secondary rounded-full text-sm lg:text-base font-medium text-textcolor'>Kontak Bantuan</button></Link>
       </div>
     </section>
@@ -114,8 +114,6 @@ export default function Home() {
     <h2 className="text-center text-base font-semibold text-white">Website pengukur UX dengan metode UEQ, Fatur Nangin 2023</h2>
     </section>
     {/* Footer Ends */}
-
-    <div className="mb-24 lg:hidden"></div>
     </>
   )
 }

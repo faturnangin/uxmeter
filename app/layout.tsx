@@ -19,6 +19,7 @@ export default function RootLayout({
       <body className={inter.className}>
       <Navbar/>
         {children}
+      <div className="mb-24 lg:hidden"></div>
       </body>
     </html>
   )

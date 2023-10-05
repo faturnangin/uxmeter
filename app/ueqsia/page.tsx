@@ -2,8 +2,22 @@
 import {ChangeEvent, FormEvent, useState} from 'react'
 import { ueqparams } from '@/constants'
 import Link from "next/link"
-
+import Modal from '@/components/Modal'
+import { Card, Subtitle, Metric, Text, Divider, Button } from "@tremor/react";
+import CallOut from '@/components/CallOut'
 export default function SiaUMP() {
+  const [showSuccessCallout, setShowSuccessCallout] = useState(false); // For success messages
+  const [showErrorCallout, setShowErrorCallout] = useState(false); // For error messages
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => {
+      setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
+
     const [formData, setFormData] = useState({
         nama: '',
         nim: '',
@@ -36,6 +50,41 @@ export default function SiaUMP() {
         answer26: '',
     })
 
+    const clearFormData = () => {
+      setFormData({
+        nama: '',
+        nim: '',
+        faculty: '',
+        answer1: '',
+        answer2: '',
+        answer3: '',
+        answer4: '',
+        answer5: '',
+        answer6: '',
+        answer7: '',
+        answer8: '',
+        answer9: '',
+        answer10: '',
+        answer11: '',
+        answer12: '',
+        answer13: '',
+        answer14: '',
+        answer15: '',
+        answer16: '',
+        answer17: '',
+        answer18: '',
+        answer19: '',
+        answer20: '',
+        answer21: '',
+        answer22: '',
+        answer23: '',
+        answer24: '',
+        answer25: '',
+        answer26: '',
+      });
+    };
+    
+
     const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => {
         const {name,value} = e.target;
         setFormData({...formData, [name]:value})
@@ -43,6 +92,7 @@ export default function SiaUMP() {
 
     const handleSubmit = async (e:FormEvent) => {
         e.preventDefault();
+        setIsLoading(true);
         // Mengirim data ke server atau menyimpannya dalam tabel MySQL di sini
         const jsonData = {
           answer1: parseInt(formData.answer1),
@@ -92,8 +142,14 @@ export default function SiaUMP() {
             if (response.ok) {
               // Data berhasil dikirimkan
               // Anda dapat menampilkan pesan sukses atau melakukan tindakan lain di sini
+              setIsLoading(false);
+              clearFormData();
+              setShowSuccessCallout(true);
             } else {
               // Handle error jika diperlukan
+              setIsLoading(false);
+              clearFormData();
+              setShowErrorCallout(true);
             }
           } catch (error) {
             console.error('Error:', error);
@@ -127,7 +183,7 @@ export default function SiaUMP() {
                       </li>
                   </ul>
                   <button className='px-6 py-2 bg-primary hover:bg-secondary hover:text-textcolor rounded-full text-base lg:text-lg font-medium text-white'><Link href="/ueqsia#kuisioner">Mulai isi Kuisioner</Link></button>
-                  <button className='px-6 py-2 bg-accent hover:bg-secondary hover:text-textcolor rounded-full text-base lg:text-lg font-medium text-white'>Petunjuk Pengisian</button>
+                  <button onClick={openModal} className='px-6 py-2 bg-accent hover:bg-secondary hover:text-textcolor rounded-full text-base lg:text-lg font-medium text-white'>Petunjuk Pengisian</button>
               </div>
           </div>
         </section>
@@ -157,6 +213,7 @@ export default function SiaUMP() {
                             value={formData.nim}
                             onChange={handleInputChange}
                             className="block w-full rounded-md border-0 py-2 px-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm"
+                            required
                             />
                           <label htmlFor="faculty" className="block text-gray-600 font-normal">Fakultas</label>
                               <select
@@ -164,8 +221,10 @@ export default function SiaUMP() {
                               name='faculty'
                               value={formData.faculty}
                               onChange={(e)=>setFormData({...formData, faculty : e.target.value})}
-                              className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-xs sm:text-sm sm:leading-6"
+                              className="rounded-md py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6"
+                              required
                               >
+                              <option value="">Pilih Opsi</option>
                               <option>Fakuktas Keguruan dan Ilmu Pendidikan</option>
                               <option>Fakultas Ekonomi</option>
                               <option>Fakultas Teknik</option>
@@ -203,6 +262,7 @@ export default function SiaUMP() {
                                 checked={parseInt(formData[`answer${ueqparam.id}` as keyof typeof formData]) === value}
                                 onChange={handleInputChange}
                                 className="form-radio text-blue-500"
+                                required
                                 />
                                 <span className="ml-2">{value}</span>
                                 </label>
@@ -217,10 +277,66 @@ export default function SiaUMP() {
                   </div>
                   {/* row save */}
                   <div className="flex justify-end mt-4">
-                      <button type="submit" className="bg-primary text-white px-4 py-2 rounded-3xl hover:bg-accent">Submit</button>
+                      <Button className="bg-primary text-white px-4 py-2 hover:bg-accent" type='submit' size="md" loading={isLoading ? true : false}>{isLoading?'Loading' : 'Submit'}</Button>
                   </div>
               </form>
         </section>
+        
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="p-6 w-full max-h-[80vh] overflow-y-scroll">
+          <Metric>Petunjuk Pengisian UEQ</Metric>
+          <Divider />
+          <Text className='text-justify'>Terima kasih telah bersedia berpartisipasi dalam penelitian kami tentang pengalaman pengguna. Kuisioner ini dirancang untuk mengumpulkan pandangan Anda tentang produk atau layanan yang telah Anda gunakan. Mohon luangkan waktu Anda untuk menjawab pertanyaan dengan jujur. Jawaban Anda sangat berharga bagi kami.</Text>
+          <Subtitle className='mt-2'>Petunjuk Umum</Subtitle>
+          <div className="mt-2">
+        
+              <Text>1. Baca setiap pertanyaan dengan cermat sebelum menjawab.</Text>
+              <Text>2. Pilih salah satu jawaban yang paling sesuai dengan pengalaman Anda.</Text>
+      
+          </div>
+          <Subtitle className='mt-2'>Skala Penilaian</Subtitle>
+          <Text className="mt-2 text-justify">
+          Anda akan melihat 26 indikator pernyataan, dan Anda diminta untuk menilai sejauh mana Anda setuju atau tidak setuju dengan masing-masing pernyataan. Harap perhatikan skala yang terletak di bagian kanan dan kiri peryataan, posisi skala tidak konsisten sehingga nilai negatif tidak selalu terletak di bagian kiri dan juga sebaliknya.
+          </Text>
+          <Subtitle className='mt-2'>Contoh Pengisian</Subtitle>
+            <Card className='mt-2'>
+            <div className="flex flex-col gap-y-2">
+                        <h1 className='text-sm text-slate-500'>1. Apakah Sistem Informasi Akademik Mahasiswa UMP</h1>
+                        <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-400">Menyusahkan</span>
+                            <span className="text-sm text-right text-gray-400">Menyenangkan</span>
+                        </div>
+                        <div>
+                            <div className="flex justify-between">
+                            {[1,2,3,4,5,6,7].map((value:number,index)=>
+                                <div key={index}>
+                                <label className="inline-flex items-center">
+                                <input
+                                type="radio"
+                                name={`example`}
+                                value={value}
+                                className="form-radio text-blue-500"
+                                checked
+                                disabled
+                                />
+                                <span className="ml-2 text-sm">{value}</span>
+                                </label>
+                                </div>
+                            )}
+                            </div>
+                        </div>
+            </div>
+            </Card>
+            <h1 className='mt-2 text-sm text-slate-500'>Pada pertanyaan nomor 1 diatas menunjukan pengguna sangat setuju bahwa aplikasi yang diuji menyenangkan</h1>
+        </div>
+        </Modal>
+
+        {showSuccessCallout&&
+        <CallOut title='Berhasil' message='Data telah dikirim, terima kasih atas partisi anda' isSuccess={true}/>        
+        }
+        {showErrorCallout&&
+        <CallOut title='Gagal' message='Data gagal dikirim, hubungi kontak bantuan' isSuccess={false}/>        
+        }
     </>
     )
 }
