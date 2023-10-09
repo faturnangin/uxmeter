@@ -1,8 +1,8 @@
 "use client"
 import useSWR from 'swr';
-import {Button,Card,Flex,Text,Metric,TabList,Tab,TabGroup,TabPanels,TabPanel, Table, TableHead,TableRow, TableHeaderCell, TableBody, TableCell, BadgeDelta, DeltaType,} from "@tremor/react";
+import {Button,Card,Flex,Text,Metric,TabList,Tab,TabGroup,TabPanels,TabPanel, Table, TableHead,TableRow, TableHeaderCell, TableBody, TableCell, Badge, DeltaType,} from "@tremor/react";
 import { useState,Fragment } from "react";
-import { UserIcon, UserGroupIcon, ArrowsPointingOutIcon, DocumentChartBarIcon, ScaleIcon } from '@heroicons/react/20/solid';
+import { UserIcon, UserGroupIcon, ArrowsPointingOutIcon, DocumentChartBarIcon, ScaleIcon, SignalIcon } from '@heroicons/react/20/solid';
 import { Dialog, Transition } from "@headlessui/react";
 import Loader from '@/components/Loader';
 import Result from '../components/Result';
@@ -14,6 +14,52 @@ interface Answers {
   [key: string]: number;
 }
 
+
+const fakedata = [
+  {
+    name: "Viola Amherd",
+    Role: "Federal Councillor",
+    departement: "The Federal Department of Defence, Civil Protection and Sport (DDPS)",
+    status: "active",
+  },
+  {
+    name: "Simonetta Sommaruga",
+    Role: "Federal Councillor",
+    departement:
+      "The Federal Department of the Environment, Transport, Energy and Communications (DETEC)",
+    status: "active",
+  },
+  {
+    name: "Alain Berset",
+    Role: "Federal Councillor",
+    departement: "The Federal Department of Home Affairs (FDHA)",
+    status: "active",
+  },
+  {
+    name: "Ignazio Cassis",
+    Role: "Federal Councillor",
+    departement: "The Federal Department of Foreign Affairs (FDFA)",
+    status: "active",
+  },
+  {
+    name: "Ueli Maurer",
+    Role: "Federal Councillor",
+    departement: "The Federal Department of Finance (FDF)",
+    status: "active",
+  },
+  {
+    name: "Guy Parmelin",
+    Role: "Federal Councillor",
+    departement: "The Federal Department of Economic Affairs, Education and Research (EAER)",
+    status: "active",
+  },
+  {
+    name: "Karin Keller-Sutter",
+    Role: "Federal Councillor",
+    departement: "The Federal Department of Justice and Police (FDJP)",
+    status: "active",
+  },
+];
 
 export default function DashboardSiaUmp() {
     const [isOpen, setIsOpen] = useState(false);
@@ -82,7 +128,7 @@ export default function DashboardSiaUmp() {
     
     return (
     <>
-    <Card decoration="top" decorationColor="indigo">
+    <Card className='mb-10'>
       <Metric>Sistem Informasi Akademik UMP</Metric>
       <div className='mt-8'>
         <Text>Total Responden</Text>
@@ -98,105 +144,31 @@ export default function DashboardSiaUmp() {
         <TabPanels>
 
           <TabPanel>
-            <div className="mt-10">
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableHeaderCell>Nama</TableHeaderCell>
-                      <TableHeaderCell className="text-right">Nim</TableHeaderCell>
-                      <TableHeaderCell className="text-right">Tanggal</TableHeaderCell>
-                      <TableHeaderCell className="text-right">Fakultas</TableHeaderCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {data.map((data:any) => (
-                      <TableRow key={data.id}>
-                        <TableCell>{data.name}</TableCell>
-                        <TableCell className="text-right">
-                          <Text>{data.nim}</Text>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Text>{data.createdAt}</Text>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Text>{data.faculty}</Text>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                <div className="inset-x-0 bottom-0 flex justify-center bg-gradient-to-t from-white pt-12 pb-8 absolute rounded-b-lg">
-                <Button icon={ArrowsPointingOutIcon} className="bg-white shadow-md border-gray-200 text-gray-500 hover:bg-gray-50 hover:border-gray-300" onClick={openModal}>
-                  Show more
-                </Button>
-                </div>
-              <Transition appear show={isOpen} as={Fragment}>
-                <Dialog as="div" className="relative z-50" onClose={closeModal}>
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <div className="fixed inset-0 bg-gray-900 bg-opacity-25" />
-                  </Transition.Child>
-                  <div className="fixed inset-0 overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center">
-                      <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0 scale-95"
-                        enterTo="opacity-100 scale-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100 scale-100"
-                        leaveTo="opacity-0 scale-95"
-                      >
-                        <Dialog.Panel
-                          className="flex flex-col items-center w-fit transform overflow-hidden ring-tremor bg-white p-6 text-left align-middle shadow-tremor transition-all rounded-3xl"
-                        >
-                          <div className="relative mt-3">
-                            <Table className="h-[450px]">
-                              <TableHead>
-                                <TableRow>
-                                  <TableHeaderCell className="bg-white">Nama</TableHeaderCell>
-                                  <TableHeaderCell className="bg-white">Nim</TableHeaderCell>
-                                  <TableHeaderCell className="bg-white">Fakultas</TableHeaderCell>
-                                  <TableHeaderCell className="bg-white">Waktu</TableHeaderCell>
-                                  <TableHeaderCell className="bg-white">Jawaban</TableHeaderCell>
-                                  <TableHeaderCell className="bg-white">Jawaban Terkonversi</TableHeaderCell>
-                                </TableRow>
-                              </TableHead>
-
-                              <TableBody>
-                                {data.map((data:any) => (
-                                  <TableRow key={data.id}>
-                                    <TableCell>{data.name}</TableCell>
-                                    <TableCell>{data.nim}</TableCell>
-                                    <TableCell>{data.faculty}</TableCell>
-                                    <TableCell>{`${data.createdAt.substring(0, 10)} | ${data.createdAt.substring(11, 16)}`}</TableCell>
-                                    <TableCell>{Object.values(data.answers).join(',')}</TableCell>
-                                    <TableCell>{Object.values(convertAnswers(data.answers)).join(',')}</TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                              {/* <div className="absolute inset-x-0 bottom-0 bg-gradient-to-b from-transparent to-white z-0 h-20 w-full" /> */}
-                            </Table>
-                          </div>
-                          <Button
-                            className="mt-5 w-1/4 bg-white border-gray-200 text-gray-500 hover:bg-gray-50 hover:border-gray-300"
-                            onClick={closeModal}
-                          >
-                            Go back
-                          </Button>
-                        </Dialog.Panel>
-                      </Transition.Child>
-                    </div>
-                  </div>
-                </Dialog>
-              </Transition>
+            <div className='my-10'>
+            <Table className="mt-5">
+              <TableHead>
+                <TableRow>
+                  <TableHeaderCell>Nama</TableHeaderCell>
+                  <TableHeaderCell>Nim</TableHeaderCell>
+                  <TableHeaderCell>Fakultas</TableHeaderCell>
+                  <TableHeaderCell>Waktu</TableHeaderCell>
+                  <TableHeaderCell>Jawaban</TableHeaderCell>
+                  <TableHeaderCell>Jawaban Terkonversi</TableHeaderCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+              {data.map((data:any) => (
+                  <TableRow key={data.id}>
+                    <TableCell>{data.name}</TableCell>
+                    <TableCell>{data.nim}</TableCell>
+                    <TableCell>{data.faculty}</TableCell>
+                    <TableCell>{`${data.createdAt.substring(0, 10)} | ${data.createdAt.substring(11, 16)}`}</TableCell>
+                    <TableCell>{Object.values(data.answers).join(',')}</TableCell>
+                    <TableCell>{Object.values(convertAnswers(data.answers)).join(',')}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
             </div>
           </TabPanel>
 
@@ -219,12 +191,12 @@ export default function DashboardSiaUmp() {
                 {data.map((data:any) => (
                   <TableRow key={data.id}>
                     <TableCell>{data.name}</TableCell>
-                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), attractiveness)}</TableCell>
-                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), perspicuity)}</TableCell>
-                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), efficiency)}</TableCell>
-                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), dependability)}</TableCell>
-                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), stimulation)}</TableCell>
-                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), novelty)}</TableCell>
+                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), attractiveness).toFixed(2)}</TableCell>
+                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), perspicuity).toFixed(2)}</TableCell>
+                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), efficiency).toFixed(2)}</TableCell>
+                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), dependability).toFixed(2)}</TableCell>
+                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), stimulation).toFixed(2)}</TableCell>
+                    <TableCell className="text-right">{calculateGroupAverage(convertAnswers(data.answers), novelty).toFixed(2)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

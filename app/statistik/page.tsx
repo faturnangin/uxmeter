@@ -48,7 +48,7 @@ export default function Statistik() {
       </section>
     
     {isVisible && (
-      <section className='mt-5 px-4 lg:px-24'>
+      <section className='my-5 px-4 lg:px-24'>
       <Card>
       <div className='mt-8'>
         <Text>Total Responden</Text>

@@ -12,7 +12,7 @@ export default async function DashNav() {
             <h2 className='text-md lg:text-lg font-semibold'>Hi, {session && session?.user?.name} </h2>
             <img className='w-6 h-6' src="/user.svg" alt="" />
             </div>
-            <h2 className='text-md lg:text-lg bg-red-600 text-white py-2 px-4 rounded-3xl shadow-md font-semibold'><Link href="/api/auth/signout">Logout</Link></h2>
+            <h2 className='text-md lg:text-lg bg-red-600 text-white py-2 px-4 rounded-3xl shadow-md font-semibold'><Link prefetch={false} href="/api/auth/signout">Logout</Link></h2>
           </div>
         </div>
       </div>

@@ -164,6 +164,11 @@ export default function Result({data}:{data:UEQ[]}) {
             "Novelty": calculateGroupAverage(data, novelty),
           },
     ];
+
+    function bulatkanKeAtas(angka:number, desimal:number) {
+        var pembulatan = Math.pow(10, desimal);
+        return Math.ceil(angka * pembulatan) / pembulatan;
+    }
     
     const ueqMeanScalePerItem = ueqparams.map((item,index)=>answerSumsArray[index].value/data.length)
     const ueqitemChart = ueqMeanScalePerItem.map((value,index) => ({
@@ -203,10 +208,10 @@ export default function Result({data}:{data:UEQ[]}) {
                         <TableCell className="text-left">
                             <Flex className='space-x-2'>
                             <BadgeDelta deltaType={defineStatus(answerSumsArray[index].value/data.length)} />
-                            <Text>{answerSumsArray[index].value/data.length}</Text>
+                            <Text>{bulatkanKeAtas((answerSumsArray[index].value/data.length),1)}</Text>
                             </Flex>
                         </TableCell>
-                        <TableCell className="text-left">{calculateVarianceWithConversion(data, ueq.id)}</TableCell>
+                        <TableCell className="text-left">{calculateVarianceWithConversion(data, ueq.id).toFixed(1)}</TableCell>
                         <TableCell className="text-left">{calculateStandardDeviation(calculateVarianceWithConversion(data, ueq.id)).toFixed(1)}</TableCell>
                         <TableCell className="text-left">{data.length}</TableCell>
                         <TableCell className="text-left">{ueq.param1}</TableCell>
