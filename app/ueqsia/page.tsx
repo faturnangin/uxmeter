@@ -143,12 +143,12 @@ export default function SiaUMP() {
               // Data berhasil dikirimkan
               // Anda dapat menampilkan pesan sukses atau melakukan tindakan lain di sini
               setIsLoading(false);
-              // clearFormData();
+              clearFormData();
               setShowSuccessCallout(true);
             } else {
               // Handle error jika diperlukan
               setIsLoading(false);
-              // clearFormData();
+              clearFormData();
               setShowErrorCallout(true);
             }
           } catch (error) {
