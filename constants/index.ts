@@ -108,7 +108,7 @@ export const ueqparams = [
     param2: "Sederhana",
     scale: "Perspicuity",
     hint: "Aspek yang mempengaruhi: Tingkat kesederhanaan dan kejelasan aplikasi.",
-    question: "Menurut Anda, seberapa rumit aplikasi SIA UMP",
+    question: "Menurut Anda, seberapa rumit aplikasi SIA UMP?",
   },
   {
     id: 14,
